@@ -7,20 +7,25 @@ function cowman:Load()
     cowman.JumpHeight = 4
     cowman.Gravity = 0.2
     cowman.OnGround = false
+    cowman.Xflip = 1
+    cowman.Width = 16
+    cowman.Height = 16
 
     cowman.Position = {["X"] = 64, ["Y"] = 64}
     cowman.Velocity = {["X"] = 0, ["Y"] = 0}
     cowman.Texture = love.graphics.newImage("Assets/cowman.png")
-    cowman.Quad = love.graphics.newQuad(0,0,16,16,cowman.Texture:getWidth(),cowman.Texture:getHeight())
+    cowman.Quad = love.graphics.newQuad(0,0,cowman.Width,cowman.Height,cowman.Texture:getWidth(),cowman.Texture:getHeight())
 end
 
 function cowman:Update()
     cowman.Velocity.X = 0;
     if love.keyboard.isDown("a") then
         cowman.Velocity.X = cowman.Velocity.X - cowman.Speed
+        cowman.Xflip = -1
     end
     if love.keyboard.isDown("d") then
         cowman.Velocity.X = cowman.Velocity.X + cowman.Speed
+        cowman.Xflip = 1
     end
     if love.keyboard.isDown("w") and cowman.OnGround == true then
         cowman.Velocity.Y = cowman.Velocity.Y - cowman.JumpHeight
@@ -46,7 +51,7 @@ function cowman:Update()
 end
 
 function cowman:Draw()
-    love.graphics.draw(cowman.Texture, cowman.Quad, cowman.Position.X, cowman.Position.Y)
+    love.graphics.draw(cowman.Texture, cowman.Quad, cowman.Position.X, cowman.Position.Y, 0, cowman.Xflip, 1, cowman.Width/2, cowman.Height/2)
 end
 
 return cowman
