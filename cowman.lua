@@ -2,6 +2,8 @@ local cowman = {}
 
 function cowman:Load()
     cowman.Speed = 1
+    cowman.Sprint = 2
+    cowman.Walk = 1
     cowman.JumpHeight = 4
     cowman.Gravity = 0.2
     cowman.OnGround = false
@@ -23,6 +25,13 @@ function cowman:Update()
     if love.keyboard.isDown("w") and cowman.OnGround == true then
         cowman.Velocity.Y = cowman.Velocity.Y - cowman.JumpHeight
     end
+    if love.keyboard.isDown("lshift") then
+        cowman.Speed = cowman.Sprint
+    else
+        cowman.Speed = cowman.Walk
+    end
+
+
     cowman.Velocity.Y = cowman.Velocity.Y + cowman.Gravity
 
     cowman.Position.X = cowman.Position.X + cowman.Velocity.X
