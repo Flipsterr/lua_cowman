@@ -1,23 +1,23 @@
 local cowman = {}
 
 rectangle = {
-    X = 0,
-    Y = 0,
-    Width = 0,
-    Height = 0,
-    Left = function rectangle(self)
-        return self.X
-    end
-    Right = function rectangle(self)
-        return self.X
-    end
-    Top = function rectangle(self)
-        return self.Y + Width
-    end
-    Bottom = function rectangle(self)
-        return self.Y + Height
-    end
+    ["X"] = 0,
+    ["Y"] = 0,
+    ["Width"] = 0,
+    ["Height"] = 0,
 }
+function Left(rect)
+    return rect.X
+end
+function Right(rect)
+    return rect.X + rect.Width
+end
+function Top(rect)
+    return rect.Y
+end
+function Bottom(rect)
+    return rect.Y + rect.Height
+end
 
 function cowman:Load()
     cowman.Speed = 1
