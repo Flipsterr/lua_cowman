@@ -38,8 +38,8 @@ function cowman:Load()
     cowman.Collider = {
         ["X"] = 0,
         ["Y"] = 0,
-        ["Width"] = 16,
-        ["Height"] = 16,
+        ["Width"] = 8,
+        ["Height"] = 8,
     }
 end
 
@@ -75,17 +75,16 @@ function cowman:Update()
 end
 
 function CollideWithWorld()
-    for x = tablelength(world.Level1.Tiles), 1, -1 
+    for x = tablelength(world.Tiles), 1, -1 
     do 
-        for y = tablelength(world.Level1.Tiles[1]), 1, -1 
+        for y = tablelength(world.Tiles[1]), 1, -1 
         do 
-            if world.Level1.Tiles[x][y] == 1 then
+            if world.Tiles[x][y] == 1 then
                 r = rectangle
-                r.X = y * 8
-                r.Y = x * 8
+                r.X = y * 8 - 4
+                r.Y = x * 8 - 8
                 r.Width = 8
                 r.Height = 8
-                print(r.Left())
                 ResolveCollision(r)
             end
         end
@@ -93,68 +92,49 @@ function CollideWithWorld()
 end
 
 function ResolveCollision(rect)
-    col1 = rectangle
-    col1.X = cowman.Collider.X
-    col1.Y = cowman.Collider.Y
-    col1.Width = cowman.Collider.Width
-    col1.Height = cowman.Collider.Height
-
-    print(col1.Left())
 
     if IsTouchingLeft(rect) == true then
-        cowman.Velocity.X = rect.Right() - col1.Left()
+        cowman.Velocity.X = Right(rect) - Left(cowman.Collider)
     end
     if IsTouchingRight(rect) == true then
-        cowman.Velocity.X = rect.Left() - col1.Right()
+        cowman.Velocity.X = Left(rect) - Right(cowman.Collider)
     end
     if IsTouchingTop(rect) == true then
-        cowman.Velocity.Y = rect.Bottom() - col1.Top()
+        cowman.Velocity.Y = Bottom(rect) - Top(cowman.Collider)
     end
     if IsTouchingBottom(rect) == true then
-        cowman.Velocity.Y = rect.Top() - col1.Bottom()
+        cowman.Velocity.Y = Top(rect) - Bottom(cowman.Collider)
 
         cowman.OnGround = true;
     end
 end
 
 function IsTouchingLeft(rect)
-    col1 = rectangle
-    col1.X = cowman.Collider.X
-    col1.Y = cowman.Collider.Y
-    col1.Width = cowman.Collider.Width
-    col1.Height = cowman.Collider.Height
-    
-    return col1.Left() + cowman.Velocity.X < rect.Right() and col1.Right() > rect.Right() and col1.Bottom() > rect.Top() and col1.Top() < rect.Bottom()
+    return Left(cowman.Collider) + cowman.Velocity.X < Right(rect) and 
+    Right(cowman.Collider) > Right(rect) and 
+    Bottom(cowman.Collider) > Top(rect) and 
+    Top(cowman.Collider) < Bottom(rect)
 end
 
 function IsTouchingRight(rect)
-    col1 = rectangle
-    col1.X = cowman.Collider.X
-    col1.Y = cowman.Collider.Y
-    col1.Width = cowman.Collider.Width
-    col1.Height = cowman.Collider.Height
-
-    return col1.Right() + cowman.Velocity.X > rect.Left() and col1.Left() < rect.Left() and col1.Bottom() > rect.Top() and col1.Top() < rect.Bottom()
+    return Right(cowman.Collider) + cowman.Velocity.X > Left(rect) and 
+    Left(cowman.Collider) < Left(rect) and 
+    Bottom(cowman.Collider) > Top(rect) and 
+    Top(cowman.Collider) < Bottom(rect)
 end
 
 function IsTouchingTop(rect)
-    col1 = rectangle
-    col1.X = cowman.Collider.X
-    col1.Y = cowman.Collider.Y
-    col1.Width = cowman.Collider.Width
-    col1.Height = cowman.Collider.Height
-
-    return col1.Top() + cowman.Velocity.Y < rect.Bottom() and col1.Bottom() > rect.Bottom() and col1.Right() > rect.Left() and col1.Left() < rect.Right()
+    return Top(cowman.Collider) + cowman.Velocity.Y < Bottom(rect) and 
+    Bottom(cowman.Collider) > Bottom(rect) and 
+    Right(cowman.Collider) > Left(rect) and 
+    Left(cowman.Collider) < Right(rect)
 end
 
 function IsTouchingBottom(rect)
-    col1 = rectangle
-    col1.X = cowman.Collider.X
-    col1.Y = cowman.Collider.Y
-    col1.Width = cowman.Collider.Width
-    col1.Height = cowman.Collider.Height
-
-    return col1.Bottom() + cowman.Velocity.Y > rect.Top() and col1.Top() < rect.Top() and col1.Right() > rect.Left() and col1.Left() < rect.Right()
+    return Bottom(cowman.Collider) + cowman.Velocity.Y > Top(rect) and 
+    Top(cowman.Collider) < Top(rect) and 
+    Right(cowman.Collider) > Left(rect) and 
+    Left(cowman.Collider) < Right(rect)
 end
 
 function cowman:Draw()

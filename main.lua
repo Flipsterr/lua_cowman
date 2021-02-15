@@ -19,6 +19,11 @@ function handleCollision()
 end
 
 function love.update(dt)
+    if love.keyboard.isDown("r") then
+        cowman.Position.X = 64
+        cowman.Position.Y = -16
+    end
+
     for i,v in ipairs(sprites) do
         v.Update(dt)
     end
@@ -33,4 +38,5 @@ function love.draw (dt)
         v.Draw(dt)
     end
 end
+
 
