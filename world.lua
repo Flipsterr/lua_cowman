@@ -21,7 +21,6 @@ function world:Load()
         for y = image:getHeight() - 1, 1, -1 
         do 
             local r, g, b = imagedata:getPixel(x, y)
-
             if g > 0 then
                 world.Tiles[y][x] = 1
             end
